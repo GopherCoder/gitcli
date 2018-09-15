@@ -14,6 +14,7 @@ var (
 	cliName = infrastructure.ApplicationCmdName
 )
 
+// versionCmd ...
 var versionCmd = &cobra.Command{
 	Use:     "version",
 	Short:   "show application version",
@@ -22,6 +23,7 @@ var versionCmd = &cobra.Command{
 	Run:     printVersion,
 }
 
+// printVersion ...
 func printVersion(cmd *cobra.Command, args []string) {
 	if len(args) > 1 {
 		fmt.Println(fmt.Sprintf("try %s %s --help", cliName, cmd.Use))
@@ -46,6 +48,7 @@ func printCliName(cmd *cobra.Command, args []string) {
 	fmt.Println(fmt.Sprintf("%s is an application for operation github.\n", cliName))
 }
 
+// Execute ...
 func Execute() {
 	RootCmd.AddCommand(versionCmd)
 	RootCmd.AddCommand(domain.UserCmd)
