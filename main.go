@@ -12,15 +12,26 @@ var (
 	cliName = "gitcli"
 )
 
-var rootCmd = &cobra.Command{
-	Use: "version",
+var versionCmd = &cobra.Command{
+	Use:     "version",
+	Args:    cobra.ExactArgs(0),
+	Aliases: []string{"-v"},
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(fmt.Sprintf("%s version: %s\n", cliName, version))
 	},
 }
 
+var RootCmd = &cobra.Command{
+	Use: cliName,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println(fmt.Sprintf("%s is an application for operation github.\n", cliName))
+
+	},
+}
+
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
+	RootCmd.AddCommand(versionCmd)
+	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
