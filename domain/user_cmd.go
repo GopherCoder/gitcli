@@ -1,13 +1,21 @@
 package domain
 
 import (
+	"encoding/json"
 	"fmt"
 	"gitcli/infrastructure"
+
+	"github.com/alexeyco/simpletable"
 
 	"github.com/tidwall/gjson"
 
 	"github.com/spf13/cobra"
 )
+
+type Info struct {
+	Field  string `json:"field"`
+	Result string `json:"result"`
+}
 
 // UserCmd ...
 var UserCmd = &cobra.Command{
@@ -22,52 +30,77 @@ var UserCmd = &cobra.Command{
 
 // UserCommand ...
 func UserCommand(cmd *cobra.Command, args []string) {
+
 	if len(args) < 1 {
 		fmt.Println(fmt.Sprintf("try %s --help", cmd.Use))
 		return
 	}
 
+	if args[0] == "fields" {
+		var fields = []string{"url", "login", "location", "created_at", "updated_at", "followers", "following", "public_repos",
+			"bio", "email", "company"}
+		jsonByte, _ := json.MarshalIndent(fields, " ", " ")
+		fmt.Println(string(jsonByte))
+		return
+	}
+
 	url := fmt.Sprintf(infrastructure.API["user_url"], args[0])
-	fmt.Println(url)
+	//fmt.Println(url)
 	response, _ := infrastructure.GetResponseNetHttp(url)
 	responseResult := gjson.ParseBytes(response)
 
-	switch args[1] {
+	if args[1] == "all" {
+		jsonByte, _ := json.MarshalIndent(responseResult.Raw, " ", " ")
+		fmt.Println(string(jsonByte))
+	}
 
-	case "name":
-		fmt.Println(responseResult.Get("name"))
-	case "url":
-		fmt.Println(responseResult.Get("html_url"))
-	case "location":
-		fmt.Println(responseResult.Get("location"))
-	case "create":
-		fmt.Println(responseResult.Get("created_at"))
-	case "update":
-		fmt.Println(responseResult.Get("updated_at"))
-	case "followers":
-		fmt.Println(responseResult.Get("followers"))
-	case "following":
-		fmt.Println(responseResult.Get("following"))
-	case "repos":
-		fmt.Println(responseResult.Get("public_repos"))
-	case "bio":
-		fmt.Println(responseResult.Get("bio"))
-	case "email":
-		fmt.Println(responseResult.Get("email"))
-	case "company":
-		fmt.Println(responseResult.Get("company"))
-	case "all":
-		fmt.Println(responseResult.String())
+	if args[1] != "" && args[2] == "json" {
+
+		infoField := showUserField(args[1], responseResult.Get(args[1]))
+		if infoField.Result == "" {
+			infoField.Result = "None"
+		}
+		showUserInfoJson(infoField)
+	}
+	if args[1] != "" && args[2] == "table" {
+		infoField := showUserField(args[1], responseResult.Get(args[1]))
+		fmt.Println(infoField, responseResult.Get(args[1]).Raw)
+		showUserInfoTable(infoField)
 	}
 
 }
 
-func showUserInfoJson(arg string) {
+// showUserInfoJson ...
+func showUserInfoJson(info *Info) {
+	jsonByte, _ := json.MarshalIndent(info, " ", " ")
+	fmt.Println(string(jsonByte))
 
 }
 
-func showUserInfoTable(arg string) {}
+// showUserInfoTable ...
+func showUserInfoTable(info *Info) {
+	table := simpletable.New()
+	table.Header = &simpletable.Header{
+		Cells: []*simpletable.Cell{
+			{Align: simpletable.AlignCenter, Text: "Field"},
+			{Align: simpletable.AlignCenter, Text: "Value"},
+		},
+	}
+	r := []*simpletable.Cell{
+		{Align: simpletable.AlignRight, Text: fmt.Sprintf("%s", info.Field)},
+		{Text: info.Result},
+	}
+	table.Body.Cells = append(table.Body.Cells, r)
+	table.SetStyle(simpletable.StyleCompactLite)
+	fmt.Println(table.String())
 
-func showUserName(result gjson.Result) {
+}
+
+// showUserField ...
+func showUserField(field string, result gjson.Result) *Info {
+	return &Info{
+		Field:  field,
+		Result: result.Raw,
+	}
 
 }
