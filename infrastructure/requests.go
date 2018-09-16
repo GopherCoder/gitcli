@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"gitcli/configs"
 	"gitcli/infrastructure/errors"
 	"io"
 	"io/ioutil"
@@ -15,7 +16,7 @@ func GetResponseNetHttp(url string) ([]byte, error) {
 	if err != nil {
 		return nil, &errors.ErrorCmdRequest
 	}
-
+	request.Header.Add("Authorization", configs.AuthToken)
 	client := http.DefaultClient
 	response, err := client.Do(request)
 	if err != nil {
@@ -34,6 +35,7 @@ func PostResponseNetHttp(url string, body io.Reader) ([]byte, error) {
 	if err != nil {
 		return nil, &errors.ErrorCmdRequest
 	}
+	request.Header.Add("Authorization", configs.AuthToken)
 	client := http.DefaultClient
 	response, err := client.Do(request)
 	if err != nil {
@@ -48,7 +50,9 @@ func PostResponseNetHttp(url string, body io.Reader) ([]byte, error) {
 // GetResponseGoRequests ...
 func GetResponseGoRequests(url string) ([]byte, error) {
 	request := gorequest.New()
-	response, _, err := request.Get(url).End()
+	response, _, err := request.Get(url).Set(
+		"Authorization", configs.AuthToken).
+		End()
 	if err != nil {
 		return nil, &errors.ErrorCmdResponse
 	}
@@ -60,6 +64,7 @@ func GetResponseGoRequests(url string) ([]byte, error) {
 func PostResponseGoRequests(url string, body interface{}) ([]byte, error) {
 	request := gorequest.New()
 	response, body, err := request.Post(url).
+		Set("Authorization", configs.AuthToken).
 		Send(body).End()
 	if err != nil {
 		return nil, &errors.ErrorCmdResponse
