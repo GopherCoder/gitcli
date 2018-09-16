@@ -46,4 +46,7 @@ var API = map[string]string{
 	// organizationCommand
 	"organization_url":      "https://api.github.com/orgs/%s",
 	"organization_repo_url": "https://api.github.com/orgs/%s/repos",
+
+	// trendingCommand
+	"trending_url": "https://github.com/trending/%s?since=%s",
 }
