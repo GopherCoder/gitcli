@@ -1,1 +1,81 @@
 package domain
+
+import (
+	"fmt"
+	"gitcli/infrastructure"
+	"strconv"
+
+	"github.com/tidwall/gjson"
+
+	"github.com/spf13/cobra"
+)
+
+type item struct {
+	Name            string `json:"name"`
+	FullName        string `json:"full_name"`
+	Url             string `json:"html_url"`
+	Description     string `json:"description"`
+	CreatedAt       string `json:"created_at"`
+	UpdatedAt       string `json:"updated_at"`
+	Language        string `json:"language"`
+	WatchersCount   string `json:"watchers_count"`
+	ForksCount      string `json:"forks_count"`
+	OpenIssuesCount string `json:"open_issues_count"`
+	License         string `json:"license"`
+}
+
+var SearchCommand = &cobra.Command{
+	Use:   "search",
+	Short: "search repository from github",
+	Long:  "search repository from github by keyword, query arguments contain q, page and per_page",
+	Run:   searchRepository,
+}
+
+func searchRepository(cmd *cobra.Command, args []string) {}
+
+func makeSearchRepoUrl(args []string) string {
+
+	var url string
+	if len(args) < 1 {
+		fmt.Println("you should add at least one argument")
+		url = "None"
+	} else if len(args) == 1 {
+		url = fmt.Sprintf(infrastructure.API["repository_search_url"], args[0], 1, 10)
+	} else if len(args) == 2 {
+		url = fmt.Sprintf(infrastructure.API["repository_search_url"], args[0], args[1], 10)
+	} else {
+		page, _ := strconv.Atoi(args[1])
+		perPage, _ := strconv.Atoi(args[2])
+		url = fmt.Sprintf(infrastructure.API["repository_search_url"], args[0], page, perPage)
+	}
+	return url
+}
+
+func getSearchRepoResult(url string) []item {
+	response, _ := infrastructure.GetResponseNetHttp(url)
+	var items []item
+	for _, array := range gjson.ParseBytes(response).Get("items").Array() {
+		var oneItem item
+		oneItem = item{
+			Name:            array.Get("name").String(),
+			FullName:        array.Get("full_name").String(),
+			Url:             array.Get("html_url").String(),
+			Description:     array.Get("description").String(),
+			CreatedAt:       array.Get("created_at").String(),
+			UpdatedAt:       array.Get("updated_at").String(),
+			Language:        array.Get("language").String(),
+			WatchersCount:   array.Get("watchers_count").String(),
+			ForksCount:      array.Get("forks_count").String(),
+			OpenIssuesCount: array.Get("open_issues_count").String(),
+			License:         array.Get("license").String(),
+		}
+		items = append(items, oneItem)
+
+	}
+	return items
+
+}
+
+func showSearchRepoByJson() {}
+
+func showSearchRepoByTable() {}

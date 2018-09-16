@@ -23,7 +23,6 @@ var API = map[string]string{
 	"public_gists_url":                     "https://api.github.com/gists/public",
 	"rate_limit_url":                       "https://api.github.com/rate_limit",
 	"repository_url":                       "https://api.github.com/repos/{owner}/{repo}",
-	"repository_search_url":                "https://api.github.com/search/repositories?q={query}{&page,per_page,sort,order}",
 	"current_user_repositories_url":        "https://api.github.com/user/repos{?type,page,per_page,sort}",
 	"starred_url":                          "https://api.github.com/user/starred{/owner}{/repo}",
 	"starred_gists_url":                    "https://api.github.com/gists/starred",
@@ -41,4 +40,7 @@ var API = map[string]string{
 
 	// followerCommand
 	"user_follower_url": "https://api.github.com/users/%s/followers",
+
+	// searchCommand
+	"repository_search_url": "https://api.github.com/search/repositories?q=%s&page=%d&per_page=%d",
 }

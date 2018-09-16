@@ -95,7 +95,8 @@ func Execute() {
 	RootCmd.AddCommand(domain.RepoCmd)
 	// followers command
 	RootCmd.AddCommand(domain.FollowersCmd)
-
+	// search command
+	RootCmd.AddCommand(domain.SearchCommand)
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
