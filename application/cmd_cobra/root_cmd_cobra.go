@@ -52,6 +52,7 @@ func printCliName(cmd *cobra.Command, args []string) {
 func Execute() {
 	RootCmd.AddCommand(versionCmd)
 	RootCmd.AddCommand(domain.UserCmd)
+	RootCmd.AddCommand(domain.RepoCmd)
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)

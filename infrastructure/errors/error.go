@@ -16,4 +16,5 @@ func (e *ErrorCmd) Error() string {
 var (
 	ErrorCmdRequest  = ErrorCmd{Code: 400, Message: "http request error"}
 	ErrorCmdResponse = ErrorCmd{Code: 400, Message: "http response error"}
+	ErrorCmdArray    = ErrorCmd{Code: 4001, Message: "json array error"}
 )

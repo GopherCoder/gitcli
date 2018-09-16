@@ -28,8 +28,14 @@ var API = map[string]string{
 	"starred_url":                          "https://api.github.com/user/starred{/owner}{/repo}",
 	"starred_gists_url":                    "https://api.github.com/gists/starred",
 	"team_url":                             "https://api.github.com/teams",
-	"user_url":                             "https://api.github.com/users/%s",
 	"user_organizations_url":               "https://api.github.com/user/orgs",
 	"user_repositories_url":                "https://api.github.com/users/{user}/repos{?type,page,per_page,sort}",
 	"user_search_url":                      "https://api.github.com/search/users?q={query}{&page,per_page,sort,order}",
+
+	// userCommand
+	"user_url": "https://api.github.com/users/%s",
+
+	// repoCommand
+	"repo_url":        "https://api.github.com/users/%s/repos",
+	"repo_single_url": "https://api.github.com/repos/%s/%s",
 }
