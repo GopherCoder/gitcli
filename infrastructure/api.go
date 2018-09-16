@@ -38,4 +38,7 @@ var API = map[string]string{
 	// repoCommand
 	"repo_url":        "https://api.github.com/users/%s/repos",
 	"repo_single_url": "https://api.github.com/repos/%s/%s",
+
+	// followerCommand
+	"user_follower_url": "https://api.github.com/users/%s/followers",
 }
