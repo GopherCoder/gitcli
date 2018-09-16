@@ -53,6 +53,7 @@ func UserCommand(cmd *cobra.Command, args []string) {
 	if args[1] == "all" {
 		jsonByte, _ := json.MarshalIndent(responseResult.Raw, " ", " ")
 		fmt.Println(string(jsonByte))
+		return
 	}
 
 	if args[1] != "" && args[2] == "json" {
@@ -62,10 +63,12 @@ func UserCommand(cmd *cobra.Command, args []string) {
 			infoField.Result = "None"
 		}
 		showUserInfoJson(infoField)
+		return
 	}
 	if args[1] != "" && args[2] == "table" {
 		infoField := showUserField(args[1], responseResult.Get(args[1]))
 		showUserInfoTable(infoField)
+		return
 	}
 
 }
