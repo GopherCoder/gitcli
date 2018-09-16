@@ -1,10 +1,11 @@
 package main
 
 import (
-	"gitcli/application/cmd_cobra"
+	"gitcli/application/cmd_os"
 )
 
 func main() {
-	cmdCobra.Execute()
-
+	//cmdCobra.Execute()
+	//cmdFlag.PrintCommandFlag()
+	cmdOs.PrintCmdOs()
 }

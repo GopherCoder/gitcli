@@ -96,7 +96,7 @@ func showUserInfoTable(info *Info) {
 	}
 	r := []*simpletable.Cell{
 		{Align: simpletable.AlignLeft, Text: fmt.Sprintf("%s", info.Field)},
-		{Text: info.Result},
+		{Align: simpletable.AlignLeft, Text: info.Result},
 	}
 	table.Body.Cells = append(table.Body.Cells, r)
 	table.SetStyle(simpletable.StyleCompactLite)
