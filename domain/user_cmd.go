@@ -19,8 +19,9 @@ type Info struct {
 
 // UserCmd ...
 var UserCmd = &cobra.Command{
-	Use:   "user",
-	Short: "show user information",
+	Use:     "user",
+	Aliases: []string{"u"},
+	Short:   "show user information",
 	Long: `information contains username、url、
 			html_url、name、company、location、
 			public_repos、followers、following、created_at、updated_at`,
@@ -64,7 +65,6 @@ func UserCommand(cmd *cobra.Command, args []string) {
 	}
 	if args[1] != "" && args[2] == "table" {
 		infoField := showUserField(args[1], responseResult.Get(args[1]))
-		fmt.Println(infoField, responseResult.Get(args[1]).Raw)
 		showUserInfoTable(infoField)
 	}
 

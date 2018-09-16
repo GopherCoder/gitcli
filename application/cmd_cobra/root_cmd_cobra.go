@@ -19,7 +19,7 @@ var versionCmd = &cobra.Command{
 	Use:     "version",
 	Short:   "show application version",
 	Args:    cobra.ExactArgs(0),
-	Aliases: []string{"-v"},
+	Aliases: []string{"v"},
 	Run:     printVersion,
 }
 
