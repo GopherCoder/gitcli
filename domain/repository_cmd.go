@@ -39,7 +39,12 @@ func repoCommand(cmd *cobra.Command, args []string) {
 	var url string
 
 	url = makeURL(args)
-	fmt.Println(url)
+	fmt.Println(url, args)
+
+	if len(args) < 2 {
+		fmt.Println("should add one more arguments")
+		return
+	}
 
 	if url != "None" && args[1] == "all" {
 		response, _ := infrastructure.GetResponseNetHttp(url)

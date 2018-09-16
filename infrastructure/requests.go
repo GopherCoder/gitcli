@@ -16,7 +16,7 @@ func GetResponseNetHttp(url string) ([]byte, error) {
 	if err != nil {
 		return nil, &errors.ErrorCmdRequest
 	}
-	request.Header.Add("Authorization", configs.AuthToken)
+	request.Header.Add("Authorization", "Basic "+configs.PassWord)
 	client := http.DefaultClient
 	response, err := client.Do(request)
 	if err != nil {

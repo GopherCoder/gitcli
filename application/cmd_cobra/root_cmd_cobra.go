@@ -54,6 +54,18 @@ func connectInternet(cmd *cobra.Command, args []string) {
 
 }
 
+var initCmd = &cobra.Command{
+	Use:   "init",
+	Short: "make basic auth token",
+	Long:  "you need init command and get basic auth token",
+	Run:   getBasicAuthToken,
+}
+
+func getBasicAuthToken(cmd *cobra.Command, args []string) {
+	//token := args[0] + ":" + args[1]
+
+}
+
 // RootCmd ...
 var RootCmd = &cobra.Command{
 	Use:  cliName,

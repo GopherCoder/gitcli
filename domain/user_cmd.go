@@ -46,7 +46,7 @@ func UserCommand(cmd *cobra.Command, args []string) {
 	}
 
 	url := fmt.Sprintf(infrastructure.API["user_url"], args[0])
-	//fmt.Println(url)
+
 	response, _ := infrastructure.GetResponseNetHttp(url)
 	responseResult := gjson.ParseBytes(response)
 
@@ -55,8 +55,13 @@ func UserCommand(cmd *cobra.Command, args []string) {
 		fmt.Println(string(jsonByte))
 		return
 	}
+	//fmt.Println(args)
+	if len(args) <= 2 {
+		fmt.Println("Should add one more argument")
+		return
+	}
 
-	if args[1] != "" && args[2] == "json" {
+	if args[1] != "all" && args[2] == "json" {
 
 		infoField := showUserField(args[1], responseResult.Get(args[1]))
 		if infoField.Result == "" {
@@ -65,7 +70,7 @@ func UserCommand(cmd *cobra.Command, args []string) {
 		showUserInfoJson(infoField)
 		return
 	}
-	if args[1] != "" && args[2] == "table" {
+	if args[1] != "all" && args[2] == "table" {
 		infoField := showUserField(args[1], responseResult.Get(args[1]))
 		showUserInfoTable(infoField)
 		return
@@ -90,7 +95,7 @@ func showUserInfoTable(info *Info) {
 		},
 	}
 	r := []*simpletable.Cell{
-		{Align: simpletable.AlignRight, Text: fmt.Sprintf("%s", info.Field)},
+		{Align: simpletable.AlignLeft, Text: fmt.Sprintf("%s", info.Field)},
 		{Text: info.Result},
 	}
 	table.Body.Cells = append(table.Body.Cells, r)

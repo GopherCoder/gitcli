@@ -34,15 +34,17 @@ var FollowersCmd = &cobra.Command{
 
 func followerCommand(cmd *cobra.Command, args []string) {
 	fmt.Println(cmd.Use, args)
+	url := makeUserFollowerURL(args)
+	fmt.Println(url)
 	response, _ := infrastructure.GetResponseNetHttp(makeUserFollowerURL(args))
 	if ok := gjson.ParseBytes(response).IsArray(); ok != true {
 		fmt.Println(&errors.ErrorCmdArray)
 		return
 	}
-	if args[2] == "json" {
+	if args[1] == "json" {
 		showFollowersJson(gjson.ParseBytes(response))
 	}
-	if args[2] == "table" {
+	if args[1] == "table" {
 		showFollowerTable(gjson.ParseBytes(response))
 	}
 
@@ -51,7 +53,7 @@ func followerCommand(cmd *cobra.Command, args []string) {
 func makeUserFollowerURL(args []string) string {
 
 	if len(args) >= 1 {
-		return fmt.Sprintf(infrastructure.API["user_follower_url"], args[1])
+		return fmt.Sprintf(infrastructure.API["user_follower_url"], args[0])
 	}
 	return "None"
 }
@@ -70,7 +72,7 @@ func getFollowerResult(result gjson.Result) []Follower {
 		oneFollower.Following = partInfo["following"]
 		oneFollower.Company = partInfo["company"]
 		oneFollower.Email = partInfo["email"]
-		oneFollower.FollowerNumber = partInfo["follower"]
+		oneFollower.FollowerNumber = partInfo["followers"]
 
 		arrayFollowers = append(arrayFollowers, oneFollower)
 
@@ -106,12 +108,12 @@ func showFollowerTable(result gjson.Result) {
 	}
 	for _, info := range infos {
 		cell := []*simpletable.Cell{
-			{Align: simpletable.AlignCenter, Text: info.Name},
-			{Align: 1, Text: info.Url},
-			{Align: 1, Text: info.FollowerNumber},
-			{Align: 1, Text: info.Following},
-			{Align: 1, Text: info.Email},
-			{Align: 1, Text: info.Company},
+			{Align: simpletable.AlignLeft, Text: info.Name},
+			{Align: 0, Text: info.Url},
+			{Align: 0, Text: info.FollowerNumber},
+			{Align: 0, Text: info.Following},
+			{Align: 0, Text: info.Email},
+			{Align: 0, Text: info.Company},
 		}
 		table.Body.Cells = append(table.Body.Cells, cell)
 	}
@@ -127,7 +129,7 @@ func getPartInfo(url string) map[string]string {
 	mapValue["following"] = gjson.ParseBytes(response).Get("following").String()
 	mapValue["company"] = gjson.ParseBytes(response).Get("company").String()
 	mapValue["email"] = gjson.ParseBytes(response).Get("email").String()
-	mapValue["follower"] = gjson.ParseBytes(response).Get("follower").String()
+	mapValue["followers"] = gjson.ParseBytes(response).Get("followers").String()
 	return mapValue
 
 }
