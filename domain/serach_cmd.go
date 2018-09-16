@@ -4,6 +4,11 @@ import (
 	"fmt"
 	"gitcli/infrastructure"
 	"strconv"
+	"strings"
+
+	"github.com/alexeyco/simpletable"
+
+	"github.com/gin-gonic/gin/json"
 
 	"github.com/tidwall/gjson"
 
@@ -31,7 +36,15 @@ var SearchCommand = &cobra.Command{
 	Run:   searchRepository,
 }
 
-func searchRepository(cmd *cobra.Command, args []string) {}
+func searchRepository(cmd *cobra.Command, args []string) {
+
+	// json
+	showSearchRepoByJson()
+
+	// table
+	showSearchRepoByTable()
+
+}
 
 func makeSearchRepoUrl(args []string) string {
 
@@ -76,6 +89,44 @@ func getSearchRepoResult(url string) []item {
 
 }
 
-func showSearchRepoByJson() {}
+func showSearchRepoByJson(items []item) {
+	jsonByte, _ := json.MarshalIndent(items, " ", " ")
+	fmt.Println(string(jsonByte))
+}
 
-func showSearchRepoByTable() {}
+func showSearchRepoByTable(items []item) {
+	table := simpletable.New()
+	headers := []string{"name", "full_name", "html_url", "description", "created_at",
+		"updated_at", "language", "watchers_count", "forks_count", "open_issues_count", "license"}
+
+	var cells []*simpletable.Cell
+
+	for _, header := range headers {
+		cell := &simpletable.Cell{
+			Align: simpletable.AlignCenter, Text: strings.ToUpper(header),
+		}
+		cells = append(cells, cell)
+	}
+	table.Header = &simpletable.Header{
+		Cells: cells,
+	}
+
+	for _, item := range items {
+		r := []*simpletable.Cell{
+			{Align: simpletable.AlignLeft, Text: item.Name},
+			{Align: simpletable.AlignLeft, Text: item.FullName},
+			{Align: simpletable.AlignLeft, Text: item.Url},
+			{Align: simpletable.AlignLeft, Text: item.Description},
+			{Align: simpletable.AlignLeft, Text: item.CreatedAt},
+			{Align: simpletable.AlignLeft, Text: item.UpdatedAt},
+			{Align: simpletable.AlignLeft, Text: item.Language},
+			{Align: simpletable.AlignLeft, Text: item.WatchersCount},
+			{Align: simpletable.AlignLeft, Text: item.ForksCount},
+			{Align: simpletable.AlignLeft, Text: item.OpenIssuesCount},
+			{Align: simpletable.AlignLeft, Text: item.License},
+		}
+		table.Body.Cells = append(table.Body.Cells, r)
+	}
+	table.SetStyle(simpletable.StyleCompactLite)
+	fmt.Println(table.String())
+}
