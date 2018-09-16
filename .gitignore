@@ -1,3 +1,5 @@
 main
 .idea/
 gitcli
+vendor/*
+!vendor/vendor.json
