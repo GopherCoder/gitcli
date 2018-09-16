@@ -4,6 +4,11 @@ import (
 	"fmt"
 	"gitcli/infrastructure"
 	"gitcli/infrastructure/errors"
+	"strings"
+
+	"github.com/alexeyco/simpletable"
+
+	"github.com/gin-gonic/gin/json"
 
 	"github.com/tidwall/gjson"
 
@@ -29,11 +34,58 @@ var OrganizationCmd = &cobra.Command{
 	Run:   organizationCommand,
 }
 
-func organizationCommand(cmd *cobra.Command, args []string) {}
+func organizationCommand(cmd *cobra.Command, args []string) {
 
-func showOrganizationByJson() {}
+	url := makeOrganizationURL(args)
+	organizationRepos := getOrganizationRepo(url)
 
-func showOrganizationByTable() {}
+	if args[len(args)-1] == "json" {
+		showOrganizationByJson(organizationRepos)
+	}
+	if args[len(args)-1] == "table" {
+		showOrganizationByTable(organizationRepos)
+	}
+}
+
+func showOrganizationByJson(organizations []organizationRepo) {
+	jsonByte, _ := json.MarshalIndent(organizations, "", "\t")
+	fmt.Println(string(jsonByte))
+}
+
+func showOrganizationByTable(organizations []organizationRepo) {
+	table := simpletable.New()
+
+	headers := []string{"name", "full_name", "url", "description", "watch_count", "language", "fork_count",
+		"created_at", "updated_at"}
+	var cells []*simpletable.Cell
+
+	for _, header := range headers {
+		cell := &simpletable.Cell{
+			Align: simpletable.AlignLeft, Text: strings.ToUpper(header),
+		}
+		cells = append(cells, cell)
+	}
+	table.Header = &simpletable.Header{
+		Cells: cells,
+	}
+
+	for _, item := range organizations {
+		r := []*simpletable.Cell{
+			{Align: simpletable.AlignLeft, Text: item.Name},
+			{Align: simpletable.AlignLeft, Text: item.FullName},
+			{Align: simpletable.AlignLeft, Text: item.URL},
+			{Align: simpletable.AlignLeft, Text: item.Description},
+			{Align: simpletable.AlignLeft, Text: item.WatchersCount},
+			{Align: simpletable.AlignLeft, Text: item.Language},
+			{Align: simpletable.AlignLeft, Text: item.ForksCount},
+			{Align: simpletable.AlignLeft, Text: item.CreatedAt},
+			{Align: simpletable.AlignLeft, Text: item.UpdatedAt},
+		}
+		table.Body.Cells = append(table.Body.Cells, r)
+	}
+	table.SetStyle(simpletable.StyleCompactLite)
+	fmt.Println(table.String())
+}
 
 func makeOrganizationURL(args []string) string {
 	var url string
