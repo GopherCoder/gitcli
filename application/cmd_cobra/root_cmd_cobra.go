@@ -99,7 +99,8 @@ func Execute() {
 	RootCmd.AddCommand(domain.SearchCmd)
 	// trending command
 	RootCmd.AddCommand(domain.TrendingCmd)
-
+	// organization command
+	RootCmd.AddCommand(domain.OrganizationCmd)
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
