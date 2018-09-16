@@ -38,11 +38,20 @@ var SearchCommand = &cobra.Command{
 
 func searchRepository(cmd *cobra.Command, args []string) {
 
+	var (
+		url   string
+		items []item
+	)
+	url = makeSearchRepoUrl(args)
+	items = getSearchRepoResult(url)
 	// json
-	showSearchRepoByJson()
-
+	if args[len(args)-1] == "json" {
+		showSearchRepoByJson(items)
+	}
 	// table
-	showSearchRepoByTable()
+	if args[len(args)-1] == "table" {
+		showSearchRepoByTable(items)
+	}
 
 }
 
@@ -52,9 +61,9 @@ func makeSearchRepoUrl(args []string) string {
 	if len(args) < 1 {
 		fmt.Println("you should add at least one argument")
 		url = "None"
-	} else if len(args) == 1 {
-		url = fmt.Sprintf(infrastructure.API["repository_search_url"], args[0], 1, 10)
 	} else if len(args) == 2 {
+		url = fmt.Sprintf(infrastructure.API["repository_search_url"], args[0], 1, 10)
+	} else if len(args) == 3 {
 		url = fmt.Sprintf(infrastructure.API["repository_search_url"], args[0], args[1], 10)
 	} else {
 		page, _ := strconv.Atoi(args[1])
@@ -103,7 +112,7 @@ func showSearchRepoByTable(items []item) {
 
 	for _, header := range headers {
 		cell := &simpletable.Cell{
-			Align: simpletable.AlignCenter, Text: strings.ToUpper(header),
+			Align: simpletable.AlignLeft, Text: strings.ToUpper(header),
 		}
 		cells = append(cells, cell)
 	}
