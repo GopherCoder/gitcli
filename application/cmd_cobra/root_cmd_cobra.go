@@ -32,6 +32,28 @@ func printVersion(cmd *cobra.Command, args []string) {
 	fmt.Println(fmt.Sprintf("%s version: %s\n", cliName, version))
 }
 
+var statusCmd = &cobra.Command{
+	Use:   "status",
+	Short: "show network status",
+	Long:  "connect to internet because of cli should link to internet",
+	Run:   connectInternet,
+}
+
+func connectInternet(cmd *cobra.Command, args []string) {
+	if len(args) > 1 {
+		fmt.Println(fmt.Sprintf("try %s %s--help"), cliName, cmd.Use)
+		return
+	}
+	url := "https://www.baidu.com"
+	code := infrastructure.InternetStatus(url)
+	if code == 200 {
+		fmt.Println("Connect internet Success")
+	} else {
+		fmt.Println("Connect internet Failed")
+	}
+
+}
+
 // RootCmd ...
 var RootCmd = &cobra.Command{
 	Use:  cliName,
@@ -53,6 +75,8 @@ func Execute() {
 
 	// version command
 	RootCmd.AddCommand(versionCmd)
+	// status command
+	RootCmd.AddCommand(statusCmd)
 	// user command
 	RootCmd.AddCommand(domain.UserCmd)
 	// repos command

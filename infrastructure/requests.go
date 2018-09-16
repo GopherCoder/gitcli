@@ -72,3 +72,15 @@ func PostResponseGoRequests(url string, body interface{}) ([]byte, error) {
 	defer response.Body.Close()
 	return ioutil.ReadAll(response.Body)
 }
+
+// InternetStatus ...
+func InternetStatus(url string) int {
+	request := gorequest.New()
+	response, _, err := request.Get(url).End()
+	if err == nil {
+		defer response.Body.Close()
+		return response.StatusCode
+	}
+	return 500
+
+}
