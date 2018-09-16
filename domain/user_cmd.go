@@ -82,8 +82,8 @@ func showUserInfoTable(info *Info) {
 	table := simpletable.New()
 	table.Header = &simpletable.Header{
 		Cells: []*simpletable.Cell{
-			{Align: simpletable.AlignCenter, Text: "Field"},
-			{Align: simpletable.AlignCenter, Text: "Value"},
+			{Align: simpletable.AlignCenter, Text: "FIELD"},
+			{Align: simpletable.AlignCenter, Text: "VALUE"},
 		},
 	}
 	r := []*simpletable.Cell{
