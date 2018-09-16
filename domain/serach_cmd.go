@@ -29,7 +29,7 @@ type item struct {
 	License         string `json:"license"`
 }
 
-var SearchCommand = &cobra.Command{
+var SearchCmd = &cobra.Command{
 	Use:   "search",
 	Short: "search repository from github",
 	Long:  "search repository from github by keyword, query arguments contain q, page and per_page",

@@ -19,7 +19,6 @@ var API = map[string]string{
 	"keys_url":                             "https://api.github.com/user/keys",
 	"notifications_url":                    "https://api.github.com/notifications",
 	"organization_repositories_url":        "https://api.github.com/orgs/{org}/repos{?type,page,per_page,sort}",
-	"organization_url":                     "https://api.github.com/orgs/{org}",
 	"public_gists_url":                     "https://api.github.com/gists/public",
 	"rate_limit_url":                       "https://api.github.com/rate_limit",
 	"repository_url":                       "https://api.github.com/repos/{owner}/{repo}",
@@ -43,4 +42,8 @@ var API = map[string]string{
 
 	// searchCommand
 	"repository_search_url": "https://api.github.com/search/repositories?q=%s&page=%d&per_page=%d",
+
+	// organizationCommand
+	"organization_url":      "https://api.github.com/orgs/%s",
+	"organization_repo_url": "https://api.github.com/orgs/%s/repos",
 }

@@ -33,9 +33,8 @@ var FollowersCmd = &cobra.Command{
 }
 
 func followerCommand(cmd *cobra.Command, args []string) {
-	fmt.Println(cmd.Use, args)
-	url := makeUserFollowerURL(args)
-	fmt.Println(url)
+
+	// 存在问题：慢
 	response, _ := infrastructure.GetResponseNetHttp(makeUserFollowerURL(args))
 	if ok := gjson.ParseBytes(response).IsArray(); ok != true {
 		fmt.Println(&errors.ErrorCmdArray)

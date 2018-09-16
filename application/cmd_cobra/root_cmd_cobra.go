@@ -96,7 +96,10 @@ func Execute() {
 	// followers command
 	RootCmd.AddCommand(domain.FollowersCmd)
 	// search command
-	RootCmd.AddCommand(domain.SearchCommand)
+	RootCmd.AddCommand(domain.SearchCmd)
+	// trending command
+	RootCmd.AddCommand(domain.TrendingCmd)
+
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
