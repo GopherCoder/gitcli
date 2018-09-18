@@ -14,10 +14,10 @@ func BasicAuthTokenEncode(username string, password string) string {
 	return base64.StdEncoding.EncodeToString(data)
 }
 
-func BasicAuthTokenDecode(token string) string {
+func BasicAuthTokenDecode(token string) []byte {
 	data, err := base64.StdEncoding.DecodeString(token)
 	if err != nil {
-		return "None"
+		return nil
 	}
 	return data
 }
