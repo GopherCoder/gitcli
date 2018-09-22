@@ -58,7 +58,7 @@ func searchRepository(cmd *cobra.Command, args []string) {
 func makeSearchRepoUrl(args []string) string {
 
 	var url string
-	if len(args) < 1 {
+	if len(args) <= 1 {
 		fmt.Println("you should add at least one argument")
 		url = "None"
 	} else if len(args) == 2 {
