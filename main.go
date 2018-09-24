@@ -1,9 +1,22 @@
 package main
 
-import "gitcli/application/cmd_cobra"
+import (
+	"flag"
+	"gitcli/application/cmd_flag"
+)
 
 func main() {
-	cmdCobra.Execute()
+	//cmdCobra.Execute()
 	//cmdFlag.PrintCommandFlag()
 	//cmdOs.PrintCmdOs()
+	var A string
+	flag.StringVar(&A, "a", "wuxiaoxiaoshen", "show github account user info fields")
+	flag.Parse()
+	if A == "field" {
+		cmdFlag.GithubUserFields()
+		return
+	} else {
+		cmdFlag.GithubUserStorager(A)
+		return
+	}
 }

@@ -3,3 +3,5 @@ main
 gitcli
 vendor/*
 !vendor/vendor.json
+oscli
+flagcli
