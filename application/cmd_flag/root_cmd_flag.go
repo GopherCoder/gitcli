@@ -2,8 +2,10 @@ package cmdFlag
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"reflect"
 )
@@ -22,20 +24,20 @@ type userInfoFlag struct {
 	Company string `json:"company"`
 }
 
-//func PrintCommandFlag() {
-//	flag.StringVar(&name, "n", "xieWei", "show user name")
-//	flag.StringVar(&url, "u", "https://www.baidu.com", "show user url")
-//	flag.StringVar(&email, "e", "wuxiaoshen@shu.edu.cn", "show user email")
-//	flag.StringVar(&company, "c", "ReadSense", "show user company")
-//	//flag.Parse()
-//	var oneUser userInfoFlag
-//	oneUser.Name = name
-//	oneUser.Url = url
-//	oneUser.Email = email
-//	oneUser.Company = company
-//	jsonByte, _ := json.MarshalIndent(oneUser, " ", " ")
-//	fmt.Println(string(jsonByte))
-//}
+func PrintCommandFlag() {
+	flag.StringVar(&name, "n", "xieWei", "show user name")
+	flag.StringVar(&url, "u", "https://www.baidu.com", "show user url")
+	flag.StringVar(&email, "e", "wuxiaoshen@shu.edu.cn", "show user email")
+	flag.StringVar(&company, "c", "ReadSense", "show user company")
+	flag.Parse()
+	var oneUser userInfoFlag
+	oneUser.Name = name
+	oneUser.Url = url
+	oneUser.Email = email
+	oneUser.Company = company
+	jsonByte, _ := json.MarshalIndent(oneUser, " ", " ")
+	fmt.Println(string(jsonByte))
+}
 
 func WeatherStorager(city string) ([]byte, error) {
 	//api := "https://www.sojson.com/open/api/weathera/json.shtml?city=%s"
@@ -107,6 +109,7 @@ func GithubUserFields() {
 
 func GithubUserStorager(name string) GithubAccountInfo {
 	url := fmt.Sprintf("https://api.github.com/users/%s", name)
+	log.Println("Github User Url ", url)
 	request, _ := http.NewRequest("GET", url, nil)
 	request.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
 	client := http.DefaultClient
@@ -115,7 +118,6 @@ func GithubUserStorager(name string) GithubAccountInfo {
 		fmt.Println(err)
 		return GithubAccountInfo{}
 	}
-	fmt.Println(response.StatusCode)
 	defer response.Body.Close()
 	result, err := ioutil.ReadAll(response.Body)
 	fmt.Println(string([]byte(result)))

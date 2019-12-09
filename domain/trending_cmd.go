@@ -2,6 +2,7 @@ package domain
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
 	"regexp"

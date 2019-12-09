@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
 	"github.com/wuxiaoxiaoshen/gitcli/infrastructure/errors"
