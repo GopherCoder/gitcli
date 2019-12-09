@@ -2,13 +2,12 @@ package domain
 
 import (
 	"fmt"
-	"gitcli/infrastructure"
+	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
 	"strconv"
 	"strings"
 
 	"github.com/alexeyco/simpletable"
 
-	"github.com/gin-gonic/gin/json"
 
 	"github.com/tidwall/gjson"
 

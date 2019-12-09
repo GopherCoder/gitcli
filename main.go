@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gitcli/application/cmd_cobra"
+	"github.com/wuxiaoxiaoshen/gitcli/application/cmd_cobra"
 )
 
 func main() {

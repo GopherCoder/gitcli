@@ -2,10 +2,9 @@ package domain
 
 import (
 	"fmt"
-	"gitcli/infrastructure"
-	"gitcli/infrastructure/errors"
+	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
+	"github.com/wuxiaoxiaoshen/gitcli/infrastructure/errors"
 
-	"github.com/gin-gonic/gin/json"
 
 	"github.com/tidwall/gjson"
 

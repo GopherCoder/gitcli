@@ -3,13 +3,12 @@ package domain
 import (
 	"bytes"
 	"fmt"
-	"gitcli/infrastructure"
+	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
 	"regexp"
 	"strings"
 
 	"github.com/alexeyco/simpletable"
 
-	"github.com/gin-gonic/gin/json"
 
 	"github.com/PuerkitoBio/goquery"
 

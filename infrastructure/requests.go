@@ -1,8 +1,8 @@
 package infrastructure
 
 import (
-	"gitcli/configs"
-	"gitcli/infrastructure/errors"
+	"github.com/wuxiaoxiaoshen/gitcli/configs"
+	"github.com/wuxiaoxiaoshen/gitcli/infrastructure/errors"
 	"io"
 	"io/ioutil"
 	"net/http"

@@ -2,8 +2,8 @@ package cmdCobra
 
 import (
 	"fmt"
-	"gitcli/domain"
-	"gitcli/infrastructure"
+	"github.com/wuxiaoxiaoshen/gitcli/domain"
+	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
 	"os"
 
 	"github.com/spf13/cobra"

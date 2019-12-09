@@ -3,7 +3,7 @@ package domain
 import (
 	"encoding/json"
 	"fmt"
-	"gitcli/infrastructure"
+	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
 
 	"github.com/alexeyco/simpletable"
 

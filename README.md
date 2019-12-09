@@ -23,6 +23,6 @@
 
 #### TODO
 
-- [ ] 增加Trending 命令行接口, 使用正则表达式
-- [ ] 增加KaggleCli 客户端工具, 使用 cli
+- [ ] 增加 Trending 命令行接口, 使用正则表达式
+- [ ] 增加 KaggleCli 客户端工具, 使用 cli
 
