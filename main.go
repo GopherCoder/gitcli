@@ -29,5 +29,6 @@ func CobraHelper() {
 
 func main() {
 	//OSHelper()
-	FlagHelper()
+	//FlagHelper()
+	CobraHelper()
 }

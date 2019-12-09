@@ -26,3 +26,26 @@
 - [ ] 增加 Trending 命令行接口, 使用正则表达式
 - [ ] 增加 KaggleCli 客户端工具, 使用 cli
 
+
+#### 说明
+
+- os
+> 示例
+
+```text
+application/cmd_os
+```
+
+- flag
+> 示例
+
+```text
+application/cmd_flag
+```
+
+- cobra
+
+> 示例
+```text
+application/cmd_cobra
+```

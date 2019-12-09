@@ -23,9 +23,7 @@ func GetResponseNetHttp(url string) ([]byte, error) {
 		return nil, &errors.ErrorCmdResponse
 
 	}
-
 	defer response.Body.Close()
-
 	return ioutil.ReadAll(response.Body)
 }
 

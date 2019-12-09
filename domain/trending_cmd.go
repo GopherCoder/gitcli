@@ -10,7 +10,6 @@ import (
 
 	"github.com/alexeyco/simpletable"
 
-
 	"github.com/PuerkitoBio/goquery"
 
 	"github.com/spf13/cobra"
@@ -20,7 +19,8 @@ import (
 1. 需要爬虫
 2. 先爬取所有的语言
 3. 再构造URL 爬取数据
-4. 只返回Json 格式，表格太长，不适合展示
+4. 只返回Json 格式，表格太长，不太适合展示
+5. 2019-12-09: github-trend 网页改版，重新编写
 */
 
 type trendingRepo struct {
@@ -112,19 +112,19 @@ func getTrendingRepos(url string) []trendingRepo {
 	languagePattern = `trending/(.*?)\?`
 	languageRegexp := regexp.MustCompile(languagePattern)
 	allMatch := languageRegexp.FindAllStringSubmatch(url, -1)
-
 	var trendingRepos []trendingRepo
 
 	response, _ := infrastructure.GetResponseNetHttp(url)
 	responseByte := bytes.NewReader(response)
 	doc, _ := goquery.NewDocumentFromReader(responseByte)
-	doc.Find("ol.repo-list li").Each(func(i int, selection *goquery.Selection) {
-		name := strings.TrimSpace(selection.Find("div").Eq(0).Find("h3 a").Text())
-		newReplacer := strings.NewReplacer(" ", "")
+	doc.Find("article.Box-row").Each(func(i int, selection *goquery.Selection) {
+		name := strings.TrimSpace(selection.Find("h1 a").Text())
+		newReplacer := strings.NewReplacer(" ", "", "\n", "", "\t", "")
 		newName := newReplacer.Replace(name)
-		description := strings.TrimSpace(selection.Find("div").Eq(2).Find("p").Text())
 
-		number := selection.Find("div").Eq(3)
+		description := strings.TrimSpace(selection.Find("p").Text())
+
+		number := selection.Find("div").Eq(1)
 
 		totalStar := strings.TrimSpace(number.Find("a").Eq(0).Text())
 

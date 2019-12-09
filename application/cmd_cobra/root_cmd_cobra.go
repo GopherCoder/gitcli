@@ -41,15 +41,17 @@ var statusCmd = &cobra.Command{
 
 func connectInternet(cmd *cobra.Command, args []string) {
 	if len(args) > 1 {
-		fmt.Println(fmt.Sprintf("try %s %s--help"), cliName, cmd.Use)
+		fmt.Println(fmt.Sprintf("try %s %s --help", cliName, cmd.Use))
 		return
 	}
 	url := "https://www.baidu.com"
 	code := infrastructure.InternetStatus(url)
 	if code == 200 {
-		fmt.Println("Connect internet Success")
+		fmt.Println("OK")
+		return
 	} else {
-		fmt.Println("Connect internet Failed")
+		fmt.Println("Fail")
+		return
 	}
 
 }

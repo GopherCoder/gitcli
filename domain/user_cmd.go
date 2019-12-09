@@ -3,9 +3,8 @@ package domain
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
-
 	"github.com/alexeyco/simpletable"
+	"github.com/wuxiaoxiaoshen/gitcli/infrastructure"
 
 	"github.com/tidwall/gjson"
 
@@ -32,7 +31,7 @@ var UserCmd = &cobra.Command{
 // UserCommand ...
 func UserCommand(cmd *cobra.Command, args []string) {
 
-	if len(args) < 1 {
+	if len(args) <= 1 {
 		fmt.Println(fmt.Sprintf("try %s --help", cmd.Use))
 		return
 	}
@@ -46,13 +45,15 @@ func UserCommand(cmd *cobra.Command, args []string) {
 	}
 
 	url := fmt.Sprintf(infrastructure.API["user_url"], args[0])
+	//log.Println("url",url)
 
 	response, _ := infrastructure.GetResponseNetHttp(url)
 	responseResult := gjson.ParseBytes(response)
 
 	if args[1] == "all" {
-		jsonByte, _ := json.MarshalIndent(responseResult.Raw, " ", " ")
+		jsonByte, _ := json.Marshal(string(response))
 		fmt.Println(string(jsonByte))
+		//fmt.Println(responseResult.String())
 		return
 	}
 	//fmt.Println(args)
